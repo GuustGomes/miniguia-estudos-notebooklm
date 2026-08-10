@@ -1,0 +1,102 @@
+# Raciocínio em LLMs: Modelos realmente raciocinam ou apenas simulam raciocínio?
+
+> Pesquisa sobre as capacidades de raciocínio de Large Language Models (LLMs), Chain-of-Thought, fidelidade, generalização e limitações dos modelos de raciocínio.
+
+---
+
+## Sumário
+
+- [1. Questão central](#1-questão-central)
+- [2. Resumo executivo](#2-resumo-executivo)
+  - [2.1. A evolução para o pensamento lento](#21-a-evolução-para-o-pensamento-lento)
+  - [2.2. O problema da fidelidade e honestidade](#22-o-problema-da-fidelidade-e-honestidade)
+  - [2.3. Raciocínio genuíno vs. miragem de dados](#23-raciocínio-genuíno-vs-miragem-de-dados)
+  - [2.4. Limitações multimodais](#24-limitações-multimodais)
+- [3. Glossário](#3-glossário-de-conceitos-chave)
+- [4. Perguntas fundamentais para investigação](#4-perguntas-fundamentais-para-investigação)
+- [5. Prompts para testes e experimentos](#5-prompts-para-testes-e-experimentos)
+  - [5.1. Teste de fidelidade](#51-teste-de-fidelidade)
+  - [5.2. Teste de generalização](#52-teste-de-generalização-de-formato)
+  - [5.3. Teste de abstenção visual](#53-teste-de-abstenção-visual)
+  - [5.4. Teste de Reward Hacking](#54-teste-de-reward-hacking)
+- [6. Hipóteses](#6-hipóteses)
+- [7. Conclusão provisória](#7-conclusão-provisória)
+
+---
+
+# 1. Questão central
+
+A pesquisa investiga uma questão fundamental sobre os atuais modelos de linguagem:
+
+> **Modelos de linguagem realmente raciocinam ou apenas simulam raciocínio?**
+
+A questão exige distinguir entre:
+
+- geração de padrões;
+- memorização;
+- reconhecimento de padrões;
+- generalização;
+- raciocínio;
+- planejamento;
+- explicação pós-hoc;
+- processos internos do modelo.
+
+O objetivo não é assumir previamente que uma das hipóteses está correta, mas analisar as evidências experimentais disponíveis.
+
+---
+
+# 2. Resumo executivo
+
+## 2.1. A evolução para o "pensamento lento"
+
+Modelos mais recentes, como o **OpenAI o1**, representam uma mudança importante em relação aos modelos tradicionais de linguagem.
+
+Em vez de produzir imediatamente uma resposta, modelos de raciocínio utilizam mecanismos de treinamento e computação adicional durante a inferência para trabalhar sobre problemas complexos antes de apresentar a resposta final.
+
+Uma das abordagens associadas a essa evolução é o uso de **Chain-of-Thought (CoT)**.
+
+Esse processo pode permitir que o modelo:
+
+- decomponha problemas complexos;
+- explore diferentes estratégias;
+- identifique erros;
+- revise soluções;
+- combine múltiplas etapas de raciocínio;
+- utilize mais computação durante a resolução.
+
+A utilização de **Reinforcement Learning (RL)** e de maior quantidade de computação durante a inferência (*test-time compute*) tornou-se uma das principais linhas de desenvolvimento dos chamados **reasoning models**.
+
+### Questão em aberto
+
+O fato de um modelo apresentar uma sequência de passos logicamente coerente é suficiente para demonstrar que ele realmente realizou aquele processo internamente?
+
+**Não necessariamente.**
+
+Essa questão conduz ao problema da fidelidade.
+
+---
+
+# 2.2. O problema da fidelidade e honestidade
+
+Uma das questões mais importantes na pesquisa sobre Chain-of-Thought é a chamada **faithfulness**.
+
+A pergunta é:
+
+> **A cadeia de raciocínio apresentada pelo modelo representa fielmente os mecanismos que causaram sua resposta?**
+
+Um modelo pode produzir:
+
+1. uma resposta correta;
+2. uma explicação aparentemente lógica;
+3. mas ter utilizado internamente outro mecanismo para chegar à resposta.
+
+Nesse cenário, a explicação poderia funcionar como uma **racionalização pós-hoc**.
+
+Estudos sobre *Chain-of-Thought Faithfulness* demonstram que a cadeia de raciocínio verbalizada nem sempre constitui uma descrição fiel do processo causal utilizado pelo modelo.
+
+Isso cria uma distinção importante:
+
+```text
+Explicação apresentada
+        ≠
+Necessariamente processo causal interno
