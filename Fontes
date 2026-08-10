@@ -1,0 +1,91 @@
+# A. Fontes primárias sobre modelos de raciocínio
+
+## 1. OpenAI — Learning to reason with LLMs
+
+É uma fonte fundamental para entender a hipótese de que aumentar o test-time compute e treinar modelos com reinforcement learning pode produzir capacidades de raciocínio significativamente melhores.
+
+[OpenAI — Learning to reason with LLMs](https://openai.com/pt-BR/index/learning-to-reason-with-llms/?utm_source=chatgpt.com)
+
+---
+
+## 2. OpenAI — o1 System Card
+
+Mais importante ainda para uma pesquisa crítica, porque contém detalhes sobre treinamento, avaliação, segurança e limitações do modelo.
+
+[OpenAI — o1 System Card](https://openai.com/index/openai-o1-system-card/?utm_source=chatgpt.com)
+
+---
+
+# B. A fonte mais importante para questionar “Chain-of-Thought = pensamento”
+
+## 3. Anthropic — Measuring Faithfulness in Chain-of-Thought Reasoning
+
+Essa eu considerei obrigatória.
+
+O problema investigado é exatamente:
+
+> A cadeia de raciocínio que o modelo apresenta é realmente uma explicação fiel do processo que produziu a resposta?
+
+Os pesquisadores encontraram que a relação entre CoT e o processo que gera a resposta varia bastante conforme a tarefa; em vários casos, o modelo pode produzir uma explicação que não corresponde fielmente ao processo utilizado.
+
+[Anthropic — Measuring Faithfulness in Chain-of-Thought Reasoning](https://www.anthropic.com/research/measuring-faithfulness-in-chain-of-thought-reasoning?utm_source=chatgpt.com)
+
+---
+
+## 4. Anthropic — Reasoning models don't always say what they think
+
+Essa é uma continuação extremamente relevante.
+
+A pesquisa investiga se podemos confiar no Chain-of-Thought dos chamados reasoning models. A própria Anthropic destaca que, se CoT for utilizado para monitorar comportamento e segurança, sua fidelidade torna-se uma questão crítica.
+
+[Anthropic — Reasoning models don't always say what they think](https://www.anthropic.com/research/measuring-faithfulness-in-chain-of-thought-reasoning?utm_source=chatgpt.com)
+
+---
+
+# C. Pesquisa acadêmica recente — lado cético
+
+## 5. ACL 2026 — Is Chain-of-Thought Reasoning of LLMs a Mirage?
+
+Essa é particularmente interessante porque é muito recente.
+
+O trabalho propõe que CoT pode refletir um inductive bias aprendido a partir da distribuição dos dados de treinamento. Em determinadas situações fora da distribuição, esse comportamento pode ser frágil. Os autores descrevem isso como uma espécie de “miragem” quando o modelo é levado além da distribuição em que aprendeu.
+
+> Um modelo aprendeu a raciocinar ou aprendeu a imitar padrões de raciocínio presentes nos dados?
+
+[ACL 2026 — Is Chain-of-Thought Reasoning of LLMs a Mirage?](https://aclanthology.org/2026.findings-acl.749.pdf)
+
+---
+
+## 6. ACL 2025 — Measuring Chain of Thought Faithfulness by Unlearning Reasoning Steps
+
+Outro trabalho importante sobre faithfulness.
+
+Os autores propõem uma metodologia para verificar quanto determinadas etapas verbalizadas no CoT realmente correspondem às crenças paramétricas do modelo.
+
+[ACL 2025 — Measuring Chain of Thought Faithfulness by Unlearning Reasoning Steps](https://aclanthology.org/2025.emnlp-main.504v2.pdf)
+
+---
+
+# D. Pesquisa sobre limitações do próprio CoT
+
+## 7. ACL 2026 — Look Light, Think Heavy
+
+Esse trabalho é interessante porque mostra que CoT não é uma solução universal.
+
+Os autores avaliam tarefas multimodais e encontram situações nas quais CoT pode até prejudicar determinadas capacidades perceptivas.
+
+[ACL 2026 — Look Light, Think Heavy](https://aclanthology.org/2026.acl-long.387.pdf)
+
+---
+
+# E. Uma fonte atual sobre o comportamento interno dos reasoning models
+
+## 8. OpenAI — Reasoning models struggle to control their chains of thought
+
+Essa pesquisa de 2026 estudou 13 modelos de raciocínio e encontrou baixa capacidade de controlar precisamente suas próprias cadeias de pensamento sob determinadas instruções.
+
+Isso abre uma questão fascinante:
+
+> Se nem sempre conseguimos controlar ou prever o conteúdo da cadeia de raciocínio, o quanto realmente entendemos o processo interno que produziu a resposta?
+
+[OpenAI — Reasoning models struggle to control their chains of thought](https://www.anthropic.com/research/measuring-faithfulness-in-chain-of-thought-reasoning?utm_source=chatgpt.com)
