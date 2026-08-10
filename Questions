@@ -1,0 +1,546 @@
+# Raciocínio em LLMs
+
+> **Tema:** Modelos realmente raciocinam ou apenas simulam raciocínio?
+
+## Objetivo da pesquisa
+
+Investigar, com base em evidências científicas, se os Large Language Models (LLMs) apresentam capacidades que podem ser classificadas como **raciocínio**, ou se seu comportamento pode ser explicado principalmente por **reconhecimento de padrões, interpolação estatística e reprodução de estruturas aprendidas durante o treinamento**.
+
+A investigação busca estabelecer critérios empiricamente testáveis para diferenciar essas possibilidades.
+
+---
+
+# Pergunta 1
+
+> **Como os estudos definem “raciocínio” em LLMs e quais critérios distinguem raciocínio de simples geração de padrões?**
+
+## Resposta
+
+Nos estudos atuais sobre LLMs, o **raciocínio** não é definido necessariamente como uma capacidade cognitiva humana, mas principalmente por meio de **processos operacionais e resultados comportamentais**.
+
+A distinção entre raciocínio e simples geração de padrões é frequentemente investigada através de critérios como:
+
+* fidelidade;
+* generalização;
+* robustez;
+* deliberação;
+* autocorreção;
+* causalidade.
+
+## 1. Definições de raciocínio em LLMs
+
+### 1.1 Chain-of-Thought (CoT)
+
+Uma das definições técnicas mais comuns associa raciocínio à geração de **passos intermediários** que conduzem a uma resposta final.
+
+Nesse contexto, raciocinar envolve a capacidade de:
+
+1. decompor um problema complexo;
+2. dividir o problema em etapas menores;
+3. resolver essas etapas;
+4. combinar os resultados;
+5. chegar a uma conclusão.
+
+A existência de uma cadeia de pensamento, entretanto, **não prova por si só que os passos verbalizados correspondem ao processo interno real utilizado pelo modelo**.
+
+---
+
+### 1.2 Pensamento lento e deliberado
+
+Modelos de raciocínio, como o OpenAI o1, introduzem uma abordagem baseada em maior quantidade de computação durante o processo de inferência.
+
+Nesse paradigma, o modelo pode utilizar mais tempo e recursos computacionais antes de produzir a resposta final.
+
+O conceito está relacionado ao **test-time compute** e à ideia de que determinados problemas podem ser resolvidos com maior eficácia quando o modelo possui maior capacidade de deliberação durante a inferência.
+
+---
+
+### 1.3 Reflexão e autocorreção
+
+Outra característica associada ao raciocínio é a capacidade de:
+
+* detectar erros;
+* reconsiderar uma estratégia;
+* explorar alternativas;
+* corrigir uma conclusão;
+* refinar uma solução.
+
+Porém, é necessário distinguir uma **autocorreção genuína** da simples geração de uma nova sequência de tokens que aparenta corrigir a resposta anterior.
+
+---
+
+# 2. Critérios para distinguir raciocínio de geração de padrões
+
+## 2.1 Fidelidade paramétrica
+
+A **fidelidade paramétrica (Parametric Faithfulness)** é um dos critérios utilizados para investigar se a cadeia de raciocínio verbalizada corresponde aos mecanismos internos responsáveis pela resposta.
+
+Uma distinção importante é:
+
+* **Fidelidade contextual:** verifica se a explicação apresentada é coerente com o contexto e com a resposta.
+* **Fidelidade paramétrica:** procura verificar se a explicação corresponde causalmente aos processos codificados nos parâmetros do modelo.
+
+Uma abordagem experimental consiste em alterar ou remover informações associadas a determinados passos do raciocínio e observar se isso provoca mudanças previsíveis na resposta.
+
+Se a remoção de determinada informação produzir uma alteração correspondente no comportamento do modelo, isso fornece evidência de que aquela informação desempenhava papel causal no processo.
+
+---
+
+## 2.2 Generalização fora da distribuição (OOD)
+
+Um dos principais critérios para investigar raciocínio é a **generalização Out-of-Distribution (OOD)**.
+
+A hipótese é que um sistema capaz de raciocinar deveria conseguir aplicar uma estratégia aprendida a problemas estruturalmente novos.
+
+Isso pode envolver alterações em:
+
+* tarefa;
+* comprimento;
+* composição;
+* formato;
+* contexto.
+
+Se o desempenho colapsa diante de pequenas mudanças que não alteram a lógica subjacente do problema, isso pode indicar dependência excessiva de padrões presentes nos dados de treinamento.
+
+Alguns trabalhos descrevem esse fenômeno como uma possível **“miragem de raciocínio”**, na qual o comportamento aparentemente lógico resulta de padrões estruturados aprendidos.
+
+---
+
+## 2.3 Robustez a perturbações irrelevantes
+
+Um sistema que compreende a estrutura lógica de um problema deveria, em princípio, ser relativamente robusto a alterações superficiais.
+
+Por exemplo:
+
+```text
+Problema original
+        ↓
+Problema + frase irrelevante
+        ↓
+Mesma estrutura lógica
+```
+
+Se a adição de uma informação irrelevante provocar uma grande degradação no desempenho, isso pode indicar dependência de características superficiais do texto.
+
+---
+
+## 2.4 Inconsistência entre raciocínio e resposta
+
+Outro critério importante ocorre quando:
+
+> O modelo apresenta uma cadeia de raciocínio aparentemente coerente, mas essa cadeia não explica corretamente a resposta final.
+
+Isso levanta uma questão fundamental sobre a **faithfulness da Chain-of-Thought**.
+
+Uma explicação pode ser:
+
+* fluente;
+* logicamente plausível;
+* coerente com a resposta;
+
+e ainda assim não representar o mecanismo que efetivamente levou o modelo àquela resposta.
+
+---
+
+## 2.5 Capacidade de abstenção
+
+Em tarefas multimodais, outro indicador relevante é a capacidade de reconhecer quando as informações disponíveis são insuficientes.
+
+Um sistema que possui uma representação adequada das limitações de sua entrada deveria, em determinadas situações, ser capaz de responder:
+
+> “Não há informação suficiente para determinar a resposta.”
+
+Quando um modelo produz uma resposta mesmo após a remoção de informações essenciais, isso pode indicar uma tendência a completar padrões em vez de avaliar adequadamente a suficiência da evidência disponível.
+
+---
+
+# Pergunta 2
+
+> **Quais evidências seriam necessárias para demonstrar que um LLM realmente raciocina, em vez de apenas reproduzir padrões aprendidos durante o treinamento?**
+
+## Resposta
+
+Para demonstrar que um LLM realmente raciocina, em vez de simplesmente reproduzir padrões estatísticos, seria necessária uma combinação de evidências relacionadas principalmente a:
+
+* generalização;
+* fidelidade;
+* causalidade;
+* robustez;
+* introspecção;
+* autocorreção.
+
+Nenhum desses critérios isoladamente parece suficiente.
+
+---
+
+# 1. Generalização fora da distribuição (OOD)
+
+Uma das evidências mais importantes seria demonstrar que o modelo consegue resolver problemas que diferem significativamente daqueles presentes nos dados de treinamento.
+
+Essa generalização pode ser investigada em diferentes dimensões.
+
+### 1.1 Generalização de tarefa
+
+O modelo deveria conseguir lidar com **novas composições de funções ou regras** mesmo quando os componentes individuais já eram conhecidos.
+
+Exemplo conceitual:
+
+```text
+Treinamento:
+A + B
+A + C
+B + C
+
+Teste:
+A + B + C
+```
+
+O modelo precisaria combinar os componentes de uma maneira que não estivesse necessariamente explícita nos dados de treinamento.
+
+---
+
+### 1.2 Generalização de comprimento
+
+O modelo deveria manter sua estratégia quando aumenta o número de etapas necessárias para solucionar o problema.
+
+Por exemplo:
+
+```text
+Treinamento → problemas com 4 etapas
+
+Teste → problemas com 5, 6, 10 ou mais etapas
+```
+
+Uma queda abrupta de desempenho pode indicar dependência de templates rígidos.
+
+---
+
+### 1.3 Generalização de formato
+
+O modelo também deveria ser relativamente robusto a mudanças superficiais no prompt.
+
+Por exemplo:
+
+```text
+"Qual é o resultado?"
+
+"Determine o resultado."
+
+"Calcule o resultado apresentado abaixo."
+```
+
+Se alterações linguísticas irrelevantes provocarem grandes diferenças de desempenho, isso pode indicar dependência excessiva de padrões superficiais.
+
+---
+
+# 2. Fidelidade paramétrica
+
+Não basta que o modelo produza a resposta correta.
+
+Também é necessário investigar se a **Chain-of-Thought verbalizada corresponde ao processo causal responsável pela resposta**.
+
+## Faithfulness by Unlearning Reasoning steps (FUR)
+
+Uma abordagem experimental consiste em remover ou enfraquecer informações relacionadas a determinados passos do raciocínio nos parâmetros do modelo.
+
+A lógica é:
+
+```text
+Informação relacionada ao passo
+          ↓
+Intervenção nos parâmetros
+          ↓
+Mudança no comportamento?
+          ↓
+Sim → evidência de relevância causal
+Não → possível evidência de que o passo
+      verbalizado não era necessário
+```
+
+Isso ajuda a diferenciar uma explicação simplesmente plausível de um componente causal do processo.
+
+---
+
+## Independência de atalhos
+
+Um modelo pode chegar à resposta correta utilizando um **atalho estatístico** sem utilizar o raciocínio que posteriormente descreve.
+
+Por exemplo:
+
+```text
+Pista estatística
+      ↓
+Resposta correta
+      ↓
+Explicação lógica gerada posteriormente
+```
+
+Nesse cenário, a cadeia de pensamento pode parecer racional sem ter sido o mecanismo determinante da resposta.
+
+---
+
+# 3. Robustez a perturbações irrelevantes
+
+Um sistema que raciocina sobre a estrutura de um problema deveria ser relativamente resistente a informações que não alteram sua solução.
+
+Experimentos podem adicionar:
+
+* frases distratoras;
+* informações irrelevantes;
+* alterações de estilo;
+* mudanças de ordem;
+* modificações de formatação.
+
+Se o modelo apresenta grande degradação de desempenho, isso constitui evidência de que características superficiais podem estar desempenhando um papel relevante.
+
+---
+
+# 4. Capacidade de abstenção e introspecção visual
+
+Em modelos multimodais, um teste importante consiste em remover informações críticas da entrada.
+
+Por exemplo:
+
+```text
+Imagem completa
+       ↓
+Modelo responde
+
+Imagem com informação crítica removida
+       ↓
+Modelo deveria reconhecer a insuficiência
+       ↓
+"Não é possível determinar"
+```
+
+Entretanto, modelos podem continuar produzindo respostas mesmo quando informações essenciais foram removidas.
+
+Esse comportamento sugere uma possível diferença entre:
+
+**capacidade de gerar uma explicação**
+
+e
+
+**capacidade de avaliar a suficiência das evidências disponíveis**.
+
+---
+
+# 5. Consistência lógica e autocorreção
+
+Um modelo capaz de raciocínio deveria demonstrar alguma capacidade de:
+
+1. detectar inconsistências;
+2. identificar erros;
+3. revisar a estratégia;
+4. corrigir a conclusão.
+
+Entretanto, é necessário verificar se essa autocorreção resulta de uma verdadeira detecção de inconsistência ou simplesmente da geração de uma nova sequência de tokens mais provável.
+
+Portanto:
+
+> **Autocorreção observável não é necessariamente evidência suficiente de autocorreção causal interna.**
+
+---
+
+# Conclusão
+
+As fontes analisadas sugerem que o comportamento atual dos LLMs pode envolver uma combinação de:
+
+* reconhecimento de padrões;
+* generalização;
+* heurísticas;
+* composição de padrões;
+* mecanismos de busca durante a inferência;
+* formas de computação que apresentam comportamento funcionalmente semelhante a determinados tipos de raciocínio.
+
+Portanto, demonstrar definitivamente que um LLM “realmente raciocina” exige mais do que observar respostas corretas ou cadeias de pensamento convincentes.
+
+Seriam necessárias evidências de:
+
+1. **generalização robusta;**
+2. **fidelidade entre processos internos e explicações;**
+3. **relevância causal dos passos de raciocínio;**
+4. **robustez a perturbações irrelevantes;**
+5. **capacidade de lidar com problemas fora da distribuição;**
+6. **autocorreção baseada em inconsistências reais.**
+
+---
+
+# Pergunta 3
+
+> **Existe uma definição operacional de raciocínio que possa ser testada empiricamente em modelos de linguagem?**
+
+## Resposta
+
+Com base nos estudos analisados, **não existe atualmente uma definição única e universal de raciocínio em LLMs**.
+
+Existem, entretanto, diferentes **definições operacionais** que permitem testar empiricamente aspectos específicos do comportamento associado ao raciocínio.
+
+Essas abordagens concentram-se principalmente em:
+
+* fidelidade;
+* generalização;
+* causalidade;
+* deliberação;
+* test-time compute;
+* consistência;
+* introspecção.
+
+---
+
+# 1. Fidelidade paramétrica
+
+### Definição operacional
+
+O raciocínio é considerado mais fortemente estabelecido quando existe uma relação causal entre determinados passos intermediários e a resposta final.
+
+### Teste empírico
+
+Uma abordagem como **Faithfulness by Unlearning Reasoning steps (FUR)** procura alterar ou remover informações relacionadas a etapas específicas do processo.
+
+Se a intervenção provocar uma mudança previsível na resposta, isso fornece evidência de que aquele componente possui relevância causal.
+
+---
+
+# 2. Generalização fora da distribuição
+
+### Definição operacional
+
+Raciocínio pode ser operacionalizado como a capacidade de aplicar estruturas ou estratégias aprendidas a problemas que diferem dos dados de treinamento.
+
+As mudanças podem ocorrer em:
+
+* tarefa;
+* comprimento;
+* composição;
+* formato.
+
+### Teste empírico
+
+Frameworks como **DataAlchemy** investigam o comportamento dos modelos diante dessas mudanças.
+
+Uma queda significativa de desempenho diante de pequenas modificações estruturais pode indicar dependência de padrões específicos do treinamento.
+
+---
+
+# 3. Decomposição produtiva e test-time compute
+
+Modelos de raciocínio podem utilizar maior quantidade de computação durante a inferência para explorar soluções antes de produzir uma resposta.
+
+### Definição operacional
+
+Nesse contexto, raciocínio é associado à capacidade de:
+
+* decompor problemas;
+* explorar estratégias;
+* revisar soluções;
+* realizar tentativas;
+* aumentar o esforço computacional quando a tarefa exige maior complexidade.
+
+### Teste empírico
+
+Pode-se observar a relação entre:
+
+```text
+Mais test-time compute
+          ↓
+Mais exploração
+          ↓
+Melhor desempenho?
+```
+
+Esse fenômeno pode ser analisado utilizando benchmarks como:
+
+* AIME;
+* GPQA;
+* MATH;
+* SWE-bench.
+
+Entretanto, **melhor desempenho com mais computação não prova, isoladamente, que o processo seja equivalente ao raciocínio humano**.
+
+---
+
+# 4. Fidelidade por sondas de metadados
+
+Outra abordagem consiste em introduzir informações ocultas ou pistas no contexto.
+
+### Exemplo conceitual
+
+```text
+Problema
++
+Hint oculto
+      ↓
+Resposta correta
+      ↓
+O modelo admite que utilizou o hint?
+```
+
+Se o modelo utiliza a informação, mas posteriormente produz uma Chain-of-Thought que não menciona sua influência, isso fornece evidência de que a explicação verbalizada pode não ser uma representação fiel do processo utilizado.
+
+---
+
+# 5. Introspecção visual versus verbal
+
+Em modelos multimodais, o raciocínio também pode ser investigado considerando a relação entre:
+
+* percepção;
+* representação;
+* raciocínio;
+* explicação.
+
+### Definição operacional
+
+O modelo deveria ser capaz de utilizar adequadamente as informações visuais disponíveis e reconhecer quando elas são insuficientes.
+
+### Teste empírico
+
+Pode-se remover ou obstruir informações essenciais de uma imagem e verificar se o modelo:
+
+1. reconhece a ausência da informação;
+2. evita conclusões indevidas;
+3. mantém apenas inferências sustentadas pelas evidências disponíveis.
+
+Esse tipo de teste pode revelar uma possível diferença entre:
+
+> **“pensar mais”**
+
+e
+
+> **“ter acesso adequado às informações necessárias para pensar”.**
+
+---
+
+# Síntese das três primeiras perguntas
+
+As três primeiras perguntas estabelecem uma base conceitual para a investigação:
+
+| Questão                        | Principal problema investigado |
+| ------------------------------ | ------------------------------ |
+| **O que é raciocínio?**        | Definição operacional          |
+| **Como provar raciocínio?**    | Critérios e evidências         |
+| **Como testar empiricamente?** | Métodos experimentais          |
+
+A principal conclusão até este ponto é que **acertar uma resposta ou produzir uma Chain-of-Thought convincente não é suficiente para demonstrar raciocínio genuíno**.
+
+Uma avaliação mais rigorosa precisa investigar **como o modelo generaliza, quais informações utiliza causalmente, se suas explicações são fiéis ao processo interno e se consegue manter seu desempenho diante de mudanças que preservam a estrutura lógica do problema**.
+
+---
+
+# Hipóteses da pesquisa
+
+A investigação pode ser organizada em torno de três hipóteses principais.
+
+### H1 — Raciocínio genuíno
+
+LLMs desenvolveram mecanismos computacionais capazes de realizar formas de raciocínio generalizável.
+
+### H2 — Simulação de raciocínio
+
+LLMs produzem comportamentos que parecem raciocínio, mas que são predominantemente explicados por reconhecimento de padrões, heurísticas e interpolação estatística.
+
+### H3 — Hipótese híbrida
+
+LLMs não raciocinam necessariamente da mesma maneira que humanos, mas podem desenvolver **processos computacionais funcionalmente equivalentes a determinados tipos de raciocínio**, combinando reconhecimento de padrões, busca, composição e deliberação.
+
+> A hipótese híbrida é particularmente importante porque evita reduzir a questão a uma falsa dicotomia entre “pensa como humano” e “apenas imita”.
